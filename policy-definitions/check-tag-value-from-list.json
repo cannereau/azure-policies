@@ -1,0 +1,39 @@
+{
+  "properties": {
+    "displayName": "Check value of a 'Tag Name' from allowed 'Tag Values'",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Enforces compliant value of a tag. Does not apply to resource groups.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'Environment'"
+        }
+      },
+      "allowedTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Tag Values",
+          "description": "Array of allowed values, such as ['PRD','UAT','DEV']"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "in": "[parameters('allowedTagValues')]"
+        }
+      },
+      "then": {
+        "effect": "Deny"
+      }
+    }
+  }
+}

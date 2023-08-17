@@ -1,0 +1,39 @@
+{
+  "properties": {
+    "displayName": "Check value of a 'Tag Name' contains a 'Tag Pattern'",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Enforces compliant value of a tag. Does not apply to resource groups.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'Environment'"
+        }
+      },
+      "tagPattern": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Pattern",
+          "description": "Expected string pattern in the tag value, such as 'prod'"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "contains": "[parameters('tagPattern')]"
+        }
+      },
+      "then": {
+        "effect": "Deny"
+      }
+    }
+  }
+}
